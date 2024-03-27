@@ -3,7 +3,8 @@
   "module": "src/",
   "type": "module",
   "scripts": {
-    "start": "bun run --watch src/index.ts"
+    "start": "bun run --watch src/index.ts",
+    "deploy": "bun run src/deploy-commands.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
