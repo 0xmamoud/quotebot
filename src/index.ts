@@ -1,9 +1,10 @@
-import { Client, Collection, GatewayIntentBits, Events } from "discord.js";
-import type { ExtendedClient } from "./utils/type";
+import { Client, Collection, GatewayIntentBits } from "discord.js";
+import type { ExtendedClient, Command } from "./utils/type";
 import * as fs from "fs";
 import * as path from "path";
 
 const TOKEN = process.env.DISCORD_TOKEN;
+export const textCommands: Command[] = [];
 
 export const client = new Client({
   intents: [
@@ -33,6 +34,18 @@ for (const file of commandFiles) {
   }
 }
 
+const textCommandPath = path.join(__dirname, "commands/textCommands");
+const textCommandFiles = fs
+  .readdirSync(textCommandPath)
+  .filter((file) => file.endsWith(".ts"));
+
+for (const file of textCommandFiles) {
+  const filepath = path.join(textCommandPath, file);
+  const command = await import(filepath);
+  if (command.default.name && command.default.execute) {
+    textCommands.push(command.default);
+  }
+}
 const eventPath = path.join(__dirname, "events");
 const eventFiles = fs
   .readdirSync(eventPath)
