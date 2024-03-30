@@ -1,5 +1,6 @@
 import { Events, Message } from "discord.js";
-import { textCommands } from "..";
+import type { ExtendedClient } from "../utils/type";
+// import { textCommands } from "..";
 
 const prefix: string = "!";
 
@@ -7,15 +8,21 @@ export const name = Events.MessageCreate;
 export async function execute(interaction: Message) {
   if (interaction.author.bot) return;
   if (!interaction.content.startsWith(prefix)) return;
-  const target = interaction.toString().slice(prefix.length).split(" ");
-
-  if (target.length > 1) {
-    const command = textCommands.find((cmd) => cmd.name === target[0]);
-    console.log(command);
-  } else {
-    const fullCommand = target[0] + " " + target[1];
-    const command = textCommands.find((cmd) => cmd.name === fullCommand);
-    console.log(command);
+  const client = interaction.client as ExtendedClient;
+  const target = interaction.content.slice(prefix.length).split(" ");
+  let fullTarget = target[0];
+  if (target.length > 1)
+    fullTarget = target[0] + " " + target[1];
+  try {
+    const command = client.textCommands.get(fullTarget);
+    if (!command) {
+      console.error(`Command ${fullTarget} not found`);
+      return;
+    }
+    await command.execute(interaction);
+    
+  } catch (error) {
+    console.error(error);
   }
 }
 

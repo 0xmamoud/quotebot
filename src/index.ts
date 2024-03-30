@@ -34,6 +34,7 @@ for (const file of commandFiles) {
   }
 }
 
+client.textCommands = new Collection();
 const textCommandPath = path.join(__dirname, "commands/textCommands");
 const textCommandFiles = fs
   .readdirSync(textCommandPath)
@@ -43,7 +44,7 @@ for (const file of textCommandFiles) {
   const filepath = path.join(textCommandPath, file);
   const command = await import(filepath);
   if (command.default.name && command.default.execute) {
-    textCommands.push(command.default);
+    client.textCommands.set(command.default.name, command.default);
   }
 }
 const eventPath = path.join(__dirname, "events");
