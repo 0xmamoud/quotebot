@@ -1,10 +1,12 @@
 import { Message } from "discord.js";
+import { getCitation } from "../../utils/actions";
 
 export const name: string = "citation";
 
-export async function execute(interaction: Message) {
+export async function execute(interaction: Message, args: string) {
   if (interaction.author.bot) return;
-  interaction.reply("citation textuelle");
+  const citation = await getCitation();
+  interaction.reply(citation);
 }
 
 export default { name, execute };

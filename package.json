@@ -13,7 +13,22 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "better-sqlite3": "^9.4.3",
     "discord.js": "^14.14.1",
+    "node-json-db": "^2.3.0",
     "quick.db": "^9.1.7"
-  }
+  },
+  "description": "To install dependencies:",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xmamoud/quotebot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0xmamoud/quotebot/issues"
+  },
+  "homepage": "https://github.com/0xmamoud/quotebot#readme"
 }

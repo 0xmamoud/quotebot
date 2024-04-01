@@ -1,6 +1,5 @@
 import { Events, Message } from "discord.js";
 import type { ExtendedClient } from "../utils/type";
-// import { textCommands } from "..";
 
 const prefix: string = "!";
 
@@ -11,16 +10,14 @@ export async function execute(interaction: Message) {
   const client = interaction.client as ExtendedClient;
   const target = interaction.content.slice(prefix.length).split(" ");
   let fullTarget = target[0];
-  if (target.length > 1)
-    fullTarget = target[0] + " " + target[1];
+  if (target.length > 1) fullTarget = target[0] + " " + target[1];
   try {
     const command = client.textCommands.get(fullTarget);
     if (!command) {
       console.error(`Command ${fullTarget} not found`);
       return;
     }
-    await command.execute(interaction);
-    
+    await command.execute(interaction, interaction.content);
   } catch (error) {
     console.error(error);
   }
